@@ -19,7 +19,7 @@ public class Game extends Canvas implements Runnable{
     private boolean running = false;
 
     public Game(){
-        new Window(WIDTH, HEIGHT, "Let's Build A Game!", this);
+        new Window(WIDTH, HEIGHT, "Ballzeroth!", this);
     } 
 
     public synchronized void start(){
@@ -88,4 +88,4 @@ public class Game extends Canvas implements Runnable{
     public static void main(String args[]){
         new Game(); 
     }
-}﻿
+}
