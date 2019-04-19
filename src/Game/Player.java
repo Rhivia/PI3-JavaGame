@@ -1,6 +1,7 @@
 
 package Game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -14,11 +15,12 @@ public class Player extends GameObject {
     }
 
     public void tick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        x += velX;
+        y += velY;
     }
 
     public void render(Graphics g) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        g.setColor(Color.white);
+        g.fillRect(x, y, 32, 32);
     }
-    
 }

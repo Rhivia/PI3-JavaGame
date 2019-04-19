@@ -1,6 +1,5 @@
 package Game;
 
-import java.util.List;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,17 +12,25 @@ import java.awt.image.BufferStrategy;
 public class Game extends Canvas implements Runnable{
   
     private static final long serialVersionUID = 1L;
-    public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
-
+    public static final int WIDTH = 1280, HEIGHT = WIDTH / 16 * 9; // 1280 por 720, numa resolução 16 por 9;
+    private final Handler handler;
+    
     private Thread thread;
     private boolean running = false;
 
     public Game(){
+        handler = new Handler();
+        this.addKeyListener(new KeyInput(handler));
+        
         new Window(WIDTH, HEIGHT, "Ballzeroth!", this);
+        
+        handler.addObject( new Player( WIDTH/2-32, HEIGHT/2-32, ID.Player ));
+        handler.addObject( new Player( WIDTH/2-64, HEIGHT/2-64, ID.Player ));
     } 
 
     public synchronized void start(){
         thread = new Thread(this);
+        running = true;
         thread.start();
     }
 
@@ -36,7 +43,9 @@ public class Game extends Canvas implements Runnable{
         }
     }
  
+    @Override
     public void run(){
+        
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -57,8 +66,8 @@ public class Game extends Canvas implements Runnable{
             frames++;
                 
             if(System.currentTimeMillis() - timer > 1000){
-                timer =+ 1000;
-                System.out.println("FPS: " + frames);
+                timer = System.currentTimeMillis();
+                // System.out.println("FPS: " + frames);
                 frames = 0;
             }
         } 
@@ -66,21 +75,23 @@ public class Game extends Canvas implements Runnable{
     }
  
     private void tick(){
-        // Adicionar programação
+        handler.tick();
     }
  
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
-            if(bs == null){
+        if(bs == null){
             this.createBufferStrategy(3);
             return;
         }
  
         Graphics g = bs.getDrawGraphics();
  
-        g.setColor(Color.green); 
+        g.setColor(Color.green);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
+        handler.render(g);
+        
         g.dispose();
         bs.show();
     }
