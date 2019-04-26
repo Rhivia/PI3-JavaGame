@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 /**
  *
@@ -15,6 +16,7 @@ public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 1280, HEIGHT = WIDTH / 16 * 9; // 1280 por 720, numa resolução 16 por 9;
     private final Handler handler;
     
+    private Random r;
     private Thread thread;
     private boolean running = false;
 
@@ -24,8 +26,11 @@ public class Game extends Canvas implements Runnable{
         
         new Window(WIDTH, HEIGHT, "Ballzeroth!", this);
         
+        r = new Random();
+        
         handler.addObject( new Player( WIDTH/2-32, HEIGHT/2-32, ID.Player ));
-        handler.addObject( new Player( WIDTH/2-64, HEIGHT/2-64, ID.Player ));
+        handler.addObject( new BasicEnemy( WIDTH/2-32, HEIGHT/2-32, ID.BasicEnemy ));
+        // handler.addObject( new Player( WIDTH/2-64, HEIGHT/2-64, ID.Player ));
     } 
 
     public synchronized void start(){
@@ -87,7 +92,7 @@ public class Game extends Canvas implements Runnable{
  
         Graphics g = bs.getDrawGraphics();
  
-        g.setColor(Color.green);
+        g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
