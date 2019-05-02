@@ -1,4 +1,3 @@
-
 package Game;
 
 import java.awt.Color;
@@ -8,7 +7,7 @@ import java.awt.Graphics;
  *
  * @author felipe.amnunes1
  */
-public class Player extends GameObject {
+public class Player extends GameObject { //Classe de herança que executa as devidas alterações no objeto que foi chamado.
 
     public Player(int x, int y, ID id) {
         super(x, y, id);
