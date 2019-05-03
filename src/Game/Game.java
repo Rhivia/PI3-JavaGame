@@ -5,36 +5,41 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
+import javax.swing.*;
 
 /**
  *
  * @author martin.akretzschmar
  */
-public class Game extends Canvas implements Runnable{
+public class Game extends Canvas implements Runnable {
   
     private static final long serialVersionUID = 1L;
     public static final int WIDTH = 1280, HEIGHT = WIDTH / 16 * 9; // 1280 por 720, numa resolução 16 por 9;
     private final Handler handler;
-    
     private Random r;
-    private Thread thread;
+    private HUD hud;
+    BufferStrategy bs;
+    
+    private Thread thread = new Thread(this);
     private boolean running = false;
 
     public Game(){
         handler = new Handler();
-        this.addKeyListener(new KeyInput(handler));
         
-        new Window(WIDTH, HEIGHT, "Ballzeroth!", this);
+        new Window(WIDTH, HEIGHT, "Ballzeroth!", this, handler);
+        
+        hud = new HUD();
         
         r = new Random();
         
         handler.addObject( new Player( WIDTH/2-32, HEIGHT/2-32, ID.Player ));
-        handler.addObject( new BasicEnemy( WIDTH/2-32, HEIGHT/2-32, ID.BasicEnemy ));
+        for (int i = 0; i < 20; i++) {
+            handler.addObject( new BasicEnemy( r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.BasicEnemy ));
+        }
         // handler.addObject( new Player( WIDTH/2-64, HEIGHT/2-64, ID.Player ));
     } 
 
     public synchronized void start(){
-        thread = new Thread(this);
         running = true;
         thread.start();
     }
@@ -50,7 +55,6 @@ public class Game extends Canvas implements Runnable{
  
     @Override
     public void run(){
-        
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -81,14 +85,11 @@ public class Game extends Canvas implements Runnable{
  
     private void tick(){
         handler.tick();
+        hud.tick();
     }
  
     private void render(){
-        BufferStrategy bs = this.getBufferStrategy();
-        if(bs == null){
-            this.createBufferStrategy(3);
-            return;
-        }
+        
  
         Graphics g = bs.getDrawGraphics();
  
@@ -96,11 +97,19 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
+        hud.render(g);
         
         g.dispose();
         bs.show();
     }
  
+    public static int clamp(int var, int min, int max) {
+        if(var >= max) return var = max;
+        if(var <= min) return var = min;
+        
+        return var;
+    }
+    
     public static void main(String args[]){
         new Game(); 
     }

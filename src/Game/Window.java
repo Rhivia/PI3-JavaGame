@@ -1,28 +1,30 @@
 package Game;
 
 import java.awt.Dimension;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  *
  * @author martin.akretzschmar
  */
-public class Window {
+public class Window extends JFrame {
     private static final long serialVersionUID = -240840600533728354L;
     
-    public Window(int width, int height, String title, Game game) {
-        JFrame frame = new JFrame(title);
+    public Window(int width, int height, String title, Game game, Handler handler) {        
+        setTitle("Ballzeroth!");
         
-        frame.setPreferredSize(new Dimension(width, height));
-        frame.setMaximumSize(new Dimension(width, height));
-        frame.setMinimumSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(width, height));
+        setMaximumSize(new Dimension(width, height));
+        setMinimumSize(new Dimension(width, height));
         
-        frame.setSize(width, height);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.add(game);
-        frame.setVisible(true);
+        this.requestFocus();
+        this.addKeyListener(new KeyInput(handler));
+        
+        setSize(width, height);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
         game.start();
     }
 }
