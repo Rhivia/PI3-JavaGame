@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
         
-        new Window(WIDTH, HEIGHT, "Ballzeroth!", this);
+        new Window(WIDTH, HEIGHT, "Ballzeroth!", this);//Cria a tela no tamanho indicado no (final int WIDTH e HEIGHT).
         
         handler.addObject( new Player( WIDTH/2-32, HEIGHT/2-32, ID.Player ));
         handler.addObject( new Player( WIDTH/2-64, HEIGHT/2-64, ID.Player ));
@@ -87,8 +87,8 @@ public class Game extends Canvas implements Runnable{
  
         Graphics g = bs.getDrawGraphics();
  
-        g.setColor(Color.green);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.green); //Cria o render de cenário. Nesse caso, um fundo verde.
+        g.fillRect(0, 0, WIDTH, HEIGHT);//Configura o tamanho desse cenário, sendo X = 0; Y = 0; LARGURA; ALTURA;
 
         handler.render(g);
         
@@ -97,6 +97,6 @@ public class Game extends Canvas implements Runnable{
     }
  
     public static void main(String args[]){
-        new Game(); 
+        new Game(); //Inicia o game.
     }
 }

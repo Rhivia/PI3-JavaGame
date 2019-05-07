@@ -6,7 +6,7 @@ import java.awt.Graphics;
  *
  * @author martin.akretzschmar
  */
-public abstract class GameObject {
+public abstract class GameObject { //Classe com função de ordenação de objetos concretos na tela.
     
     protected int x, y;
     protected ID id;
